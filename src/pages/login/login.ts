@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+import { HomePage } from '../pages';
 
 @Component({
   selector: 'login-page',
@@ -9,7 +10,7 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 export class LoginPage {
 
-  details: UserDetails = {'email': '', 'password': ''};
+  details: UserDetails = {'email': 'admin@admin.com', 'password': 'admin'};
 
   constructor(public navCtrl: NavController,
               public auth: Auth,
@@ -24,6 +25,7 @@ export class LoginPage {
 
     this.auth.login('basic', this.details).then(()=>{
       console.log('Sign in successful');
+      this.navCtrl.setRoot(HomePage);
     }, (err)=> {
       // unsuccessful
       alert('Invalid username or password');
@@ -35,7 +37,7 @@ export class LoginPage {
 
     this.auth.signup(this.details).then(() => {
       // `this.user` is now registered
-      return this.auth.login('basic', this.details );
+      this.auth.login('basic', this.details );
 
     }, (err: IDetailedError<string[]>) => {
       for (let e of err.details) {
