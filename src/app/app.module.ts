@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { LoginPage, HomePage, SearchPage, PostPage } from '../pages/pages';
+import { LoginPage, HomePage, SearchPage, PostPage,
+         PopoverPage } from '../pages/pages';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 const cloudSettings: CloudSettings = {
@@ -16,7 +17,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     HomePage,
     SearchPage,
-    PostPage
+    PostPage,
+    PopoverPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -28,7 +30,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     HomePage,
     SearchPage,
-    PostPage
+    PostPage,
+    PopoverPage
   ],
   providers: []
 })

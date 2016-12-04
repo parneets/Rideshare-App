@@ -8,5 +8,17 @@
 
 
 <ion-content padding>
-  <h2> Search </h2>
+  <ion-list no-lines>
+
+    <ion-item>
+      <ion-label>Origin</ion-label>
+      <ion-input (focus)="showModel()" id="origin" type="text" clearInput [(ngModel)]="origin"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Destination</ion-label>
+      <ion-input (focus)="showModel()" id="destination" type="search" clearInput [(ngModel)]="destination"></ion-input>
+    </ion-item>
+
+  </ion-list>
 </ion-content>
