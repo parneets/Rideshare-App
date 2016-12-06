@@ -1,30 +1,61 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { httpService } from '../../services/http-service';
+import { AppSettings } from '../../app-config';
 
 declare var google: any;
 
 @Component({
   selector: 'page-search',
-  templateUrl: 'search.html'
+  templateUrl: 'search.html',
+  providers: [ httpService ]
 })
 export class SearchPage {
 
   origin: string;
   destination: string;
+  date: string;
+  yesterday: string;
 
   acService: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+              private httpService: httpService) {
     this.origin = "";
     this.destination = "";
+
+    // let today = new Date();
+    // let yesterday = new Date();
+    // yesterday.setDate(today.getDate() - 1);
+    // this.yesterday = this.convertToISO(yesterday.toISOString());
+    // console.log(this.yesterday);
   }
 
   ionViewDidLoad() {
     console.log('Hello SearchPage Page');
+
   }
 
-  showModel(){
-    
+  showModel() {
+
+  }
+
+  convertToISO(date: string): string {
+    var result = date.substring(0, 4) + '-';
+    result += date.substring(8, 10) + '-';
+    result += date.substring(5, 7);
+    return result;
+  }
+
+  dateChanged() {
+    console.log(this.date);
+  }
+
+  searchRequested() {
+    console.log('search requested');
+    this.httpService.makeGetRequest(AppSettings.BASE_URL + 'api/rides').subscribe(data => {
+      console.log(data);
+    }, err => console.log("Error while posting your ride : " + err));
   }
 
   ngOnInit() {
@@ -57,6 +88,7 @@ export class SearchPage {
         console.log(geometry.location.lng());
 
         console.log(geometry.location.lat());
+
       }
 
     });

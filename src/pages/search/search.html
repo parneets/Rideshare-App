@@ -20,5 +20,16 @@
       <ion-input (focus)="showModel()" id="destination" type="search" clearInput [(ngModel)]="destination"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime (ionChange)="dateChanged()" pickerFormat="DD MMM, YYYY" displayFormat="MMM DD, YYYY" [(ngModel)]="date"></ion-datetime>
+    </ion-item>
+
   </ion-list>
+
+  <button full ion-button icon-left [disabled]="!(origin && destination && date)" (click)="searchRequested()">
+    <ion-icon name="search"></ion-icon>
+    Search for a ride
+  </button>
+
 </ion-content>

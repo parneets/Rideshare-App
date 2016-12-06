@@ -8,5 +8,32 @@
 
 
 <ion-content padding>
+  <ion-list no-lines>
 
+    <ion-item>
+      <ion-label>Origin</ion-label>
+      <ion-input (focus)="showModel()" id="origin_post" type="text" clearInput [(ngModel)]="origin"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Destination</ion-label>
+      <ion-input (focus)="showModel()" id="destination_post" type="search" clearInput [(ngModel)]="destination"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-input (focus)="dateFocused()" [(ngModel)]="date"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Time</ion-label>
+      <ion-datetime (ionChange)="timeChanged()" displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="time"></ion-datetime>
+    </ion-item>
+
+  </ion-list>
+
+  <button full ion-button icon-left [disabled]="!(origin && destination && date && time)" (click)="postRequested()">
+    <ion-icon name="search"></ion-icon>
+    Post the ride
+  </button>
 </ion-content>
