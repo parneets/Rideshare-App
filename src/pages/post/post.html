@@ -22,12 +22,12 @@
 
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-input (focus)="dateFocused()" [(ngModel)]="date"></ion-input>
+      <ion-input (focus)="dateFocused()" (click)="dateFocused()" [(ngModel)]="dateDisplay"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Time</ion-label>
-      <ion-datetime (ionChange)="timeChanged()" displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="time"></ion-datetime>
+      <ion-input (focus)="timeFocused()" (click)="timeFocused()" [(ngModel)]="timeDisplay"></ion-input>
     </ion-item>
 
   </ion-list>

@@ -1,36 +1,43 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { httpService } from '../../services/http-service';
 import { AppSettings } from '../../app-config';
 import { DatePicker } from 'ionic-native';
+import { Keyboard } from 'ionic-native';
+import moment from 'moment';
 
-declare var google : any;
+declare var google: any;
 
 @Component({
   selector: 'page-post',
   templateUrl: 'post.html',
-  providers: [ httpService ]
+  providers: [httpService]
 })
 export class PostPage {
 
-    origin: string;
-    originInfo = {
-      lat : 0,
-      long : 0
-    }
-    destination: string;
-    destInfo  = {
-      lat : 0,
-      long : 0
-    }
+  origin: string;
+  originInfo = {
+    lat: 0,
+    long: 0
+  }
+  destination: string;
+  destInfo = {
+    lat: 0,
+    long: 0
+  }
 
-    date: string;
-    time: string;
-    vehicleInfo: string;
+  dateDisplay: string;
+  date: string;
+  timeDisplay: string;
+  time: string;
+  vehicleInfo: string;
 
-  constructor(public navCtrl: NavController, 
-              private httpService: httpService) {
+  constructor(public navCtrl: NavController,
+    private httpService: httpService,
+    public loadingController: LoadingController,
+    public toastCtrl: ToastController) {
+
     this.origin = "";
     this.destination = "";
     this.vehicleInfo = "";
@@ -42,8 +49,8 @@ export class PostPage {
     console.log('Hello PostPage Page');
   }
 
-  showModel(){
-    
+  showModel() {
+
   }
 
   ngOnInit() {
@@ -77,8 +84,8 @@ export class PostPage {
         self.destInfo.long = geometry.location.lng();
 
         console.log(geometry.location.lat());
-        self.destInfo.lat =  geometry.location.lat();
-        
+        self.destInfo.lat = geometry.location.lat();
+
       }
 
     });
@@ -96,40 +103,98 @@ export class PostPage {
         self.originInfo.long = geometry.location.lng();
 
         console.log(geometry.location.lat());
-        self.originInfo.lat =  geometry.location.lat();
+        self.originInfo.lat = geometry.location.lat();
       }
 
     });
 
   }
 
-  dateFocused(){
-    
+  dateFocused() {
+    let today = new Date();
+    let yesterday = new Date();
+    let aYearFromToday = new Date();
+    yesterday.setDate(today.getDate() - 1); // sets date to yesterday
+    aYearFromToday.setDate(today.getDate() + 365); //sets date to a year from now
+
     DatePicker.show({
-      date: new Date(),
-      mode: 'date'
+      date: today,
+      mode: 'date',
+      minDate: today.getTime(),
+      maxDate: aYearFromToday.getTime(),
+      androidTheme: 3
     }).then(
-      date => console.log('Got date: ', date),
+      date => {
+        console.log('Got date: ', date);
+        Keyboard.close();
+        this.date = date.toString();
+        this.dateDisplay = moment(date).format("MMMM Do, YYYY");
+      },
       err => console.log('Error occurred while getting date: ', err)
       );
   }
 
-  dateChanged(){
+  timeFocused() {
+    let today = new Date();
 
-  }
-
-  timeChanged(){
-
+    DatePicker.show({
+      date: today,
+      mode: 'time',
+      androidTheme: 3,
+    }).then(
+      time => {
+        console.log('Got date: ', time);
+        Keyboard.close();
+        this.time = time.toString();
+        this.timeDisplay = moment(time).format("h:mm a");
+      },
+      err => {
+        console.log('Error occurred while getting time: ', err);
+        Keyboard.close();
+      }
+      );
   }
 
   postRequested() {
     let temp = {
-      "origin" : this.originInfo,
-      "detination" : this.destInfo
+      "origin": this.originInfo,
+      "detination": this.destInfo
     }
-    this.httpService.makePostRequest(AppSettings.BASE_URL + 'api/ride', {"origin": this.originInfo, "destination": this.destInfo}).subscribe(data => {
-      console.log(data);
-    }, err => console.log("Error while posting your ride : " + err));
+    let today = new Date();
+    let postedAt = today.toString();
+
+    let loader = this.loadingController.create({
+      content: 'Posting your ride ...'
+    });
+    loader.present().then(() => {
+      this.httpService.makePostRequest(AppSettings.BASE_URL + 'api/ride', {
+        "origin": this.originInfo,
+        "destination": this.destInfo,
+        "date": this.date,
+        "time": this.time,
+        "postedAt": postedAt
+      }).subscribe(data => {
+        console.log(data);
+        loader.dismiss();
+        this.presentToast();
+        this.clearData();
+      }, err => console.log("Error while posting your ride : " + err));
+    });
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Ride was posted successfully',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  clearData() {
+    this.origin = "";
+    this.destination = "";
+    this.time = "";
+    this.date = "";
   }
 
 }

@@ -13,3 +13,4 @@
 */
 declare module '*';
 declare module 'module';
+declare module 'moment';
