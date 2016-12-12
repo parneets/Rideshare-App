@@ -22,7 +22,7 @@
 
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-datetime (ionChange)="dateChanged()" pickerFormat="DD MMM, YYYY" displayFormat="MMM DD, YYYY" [(ngModel)]="date"></ion-datetime>
+      <ion-input (focus)="dateChanged()" (click)="dateChanged()" [(ngModel)]="dateDisplay"></ion-input>
     </ion-item>
 
   </ion-list>

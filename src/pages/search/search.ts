@@ -1,34 +1,46 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, App } from 'ionic-angular';
 import { httpService } from '../../services/http-service';
 import { AppSettings } from '../../app-config';
+import { DatePicker } from 'ionic-native';
+import { Keyboard } from 'ionic-native';
+import { RidesPage } from '../pages'
+import moment from 'moment';
 
 declare var google: any;
 
 @Component({
   selector: 'page-search',
   templateUrl: 'search.html',
-  providers: [ httpService ]
+  providers: [httpService]
 })
 export class SearchPage {
 
   origin: string;
+  originInfo = {
+    lat: 0,
+    long: 0
+  }
   destination: string;
+  destInfo = {
+    lat: 0,
+    long: 0
+  }
+
   date: string;
+  dateDisplay: string;
+
   yesterday: string;
 
   acService: any;
 
   constructor(public navCtrl: NavController,
-              private httpService: httpService) {
+    public navParams: NavParams,
+    private httpService: httpService,
+    public loadingController: LoadingController,
+    public app: App) {
     this.origin = "";
     this.destination = "";
-
-    // let today = new Date();
-    // let yesterday = new Date();
-    // yesterday.setDate(today.getDate() - 1);
-    // this.yesterday = this.convertToISO(yesterday.toISOString());
-    // console.log(this.yesterday);
   }
 
   ionViewDidLoad() {
@@ -48,14 +60,58 @@ export class SearchPage {
   }
 
   dateChanged() {
-    console.log(this.date);
+    let today = new Date();
+    let yesterday = new Date();
+    let aYearFromToday = new Date();
+    yesterday.setDate(today.getDate() - 1); // sets date to yesterday
+    aYearFromToday.setDate(today.getDate() + 365); //sets date to a year from now
+
+    DatePicker.show({
+      date: today,
+      mode: 'date',
+      minDate: today.getTime(),
+      maxDate: aYearFromToday.getTime(),
+      androidTheme: 3
+    }).then(
+      date => {
+        console.log('Got date: ', date);
+        Keyboard.close();
+        this.date = date.toString();
+        this.dateDisplay = moment(date).format("MMMM Do, YYYY");
+      },
+      err => console.log('Error occurred while getting date: ', err)
+      );
   }
 
   searchRequested() {
     console.log('search requested');
+
+    // save a reference to this
+    let self = this;
+
+    let nav = this.app.getRootNav();
+
+    let loader = this.loadingController.create({
+      content: 'Searching for rides ...'
+    });
+    loader.present().then(() => {
+      // Get the rides through HTTP call
+      this.httpService.makeGetRequest(AppSettings.BASE_URL + 'api/rides').subscribe(data => {
+        let postData = {
+          "rides": data,
+          "origin": self.originInfo,
+          "destination": self.destInfo,
+          "date": self.date 
+        }
+        // Send the data to RidesPage
+        nav.setRoot(RidesPage, postData, {animate: true, direction: 'forward'});
+        loader.dismiss();
+      }, err => console.log("Error while searching for your ride : " + err));
+    });
+
     this.httpService.makeGetRequest(AppSettings.BASE_URL + 'api/rides').subscribe(data => {
       console.log(data);
-    }, err => console.log("Error while posting your ride : " + err));
+    }, err => console.log("Error while searching for your ride : " + err));
   }
 
   ngOnInit() {
@@ -86,8 +142,10 @@ export class SearchPage {
         console.log(place.name);
 
         console.log(geometry.location.lng());
+        self.destInfo.long = geometry.location.lng();
 
         console.log(geometry.location.lat());
+        self.destInfo.lat = geometry.location.lat();
 
       }
 
@@ -103,8 +161,10 @@ export class SearchPage {
         console.log(place.name);
 
         console.log(geometry.location.lng());
+        self.originInfo.long = geometry.location.lng();
 
         console.log(geometry.location.lat());
+        self.originInfo.lat = geometry.location.lat();
       }
 
     });

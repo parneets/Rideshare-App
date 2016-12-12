@@ -3,7 +3,7 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { LoginPage, HomePage, SearchPage, PostPage,
-         PopoverPage } from '../pages/pages';
+         PopoverPage, RidesPage, RidePage } from '../pages/pages';
 import { httpService } from '../providers/http-service';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
@@ -20,7 +20,9 @@ const cloudSettings: CloudSettings = {
     HomePage,
     SearchPage,
     PostPage,
-    PopoverPage
+    PopoverPage,
+    RidesPage,
+    RidePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -34,7 +36,9 @@ const cloudSettings: CloudSettings = {
     HomePage,
     SearchPage,
     PostPage,
-    PopoverPage
+    PopoverPage,
+    RidesPage,
+    RidePage
   ],
   providers: []
 })
