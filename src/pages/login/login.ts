@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+import { Auth, User, UserDetails, IDetailedError, FacebookAuth } from '@ionic/cloud-angular';
 import { HomePage } from '../pages';
 
 @Component({
@@ -14,13 +14,28 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController,
               public auth: Auth,
-              public user: User) { }
+              public user: User,
+              public facebookAuth: FacebookAuth) { }
 
   ionViewDidLoad() {
     console.log('Hello LoginPage Page');
+    if (this.auth.isAuthenticated()) {
+      // this.user is authenticated!
+      this.navCtrl.setRoot(HomePage);
+    }
   }
 
-  // handles signIn button click
+  signIn(){
+    this.facebookAuth.login().then(()=>{
+      console.log('Sign in successful');
+      this.navCtrl.setRoot(HomePage);
+    }, (err)=> {
+      // unsuccessful
+      alert('Invalid username or password');
+    });
+  }
+
+/*  // handles signIn button click
   signIn(){
 
     this.auth.login('basic', this.details).then(()=>{
@@ -64,7 +79,7 @@ export class LoginPage {
         }
       }
     });
-  }
+  }*/
 
 
 

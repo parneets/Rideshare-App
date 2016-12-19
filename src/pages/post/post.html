@@ -8,7 +8,7 @@
 
 
 <ion-content padding>
-  <ion-list no-lines>
+  <ion-list>
 
     <ion-item>
       <ion-label>Origin</ion-label>
@@ -30,9 +30,14 @@
       <ion-input (focus)="timeFocused()" (click)="timeFocused()" [(ngModel)]="timeDisplay"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label >Price</ion-label>
+      <ion-input type="number" [(ngModel)]="price"></ion-input>
+    </ion-item>
+
   </ion-list>
 
-  <button full ion-button icon-left [disabled]="!(origin && destination && date && time)" (click)="postRequested()">
+  <button full ion-button icon-left [disabled]="!(origin && destination && date && time && price)" (click)="postRequested()">
     <ion-icon name="search"></ion-icon>
     Post the ride
   </button>

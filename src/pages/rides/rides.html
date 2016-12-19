@@ -1,12 +1,26 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>rides</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content>
-  <h2>Rides</h2>
+
+  <ion-list margin-top>
+    <button ion-item *ngFor="let ride of rides" (click)="showRide(ride)">
+      <ion-avatar item-left>
+        <img src="{{ride.userData.profile_picture}}">
+      </ion-avatar>
+      <h2>{{ride.userData.full_name}}</h2>
+      <p>
+        Pickup time : {{convertToHumanTime(ride.time)}}
+      </p>
+      <p>
+        <ion-icon name="time"></ion-icon>
+        <span>&nbsp;{{getTimeFrom(ride.postedAt)}}</span>
+      </p>
+      <span class="ride-price" item-right>$ {{ride.price}}</span>
+    </button>
+  </ion-list>
+
 </ion-content>

@@ -21,11 +21,14 @@ export class SearchPage {
     lat: 0,
     long: 0
   }
+  originCity: string;
+
   destination: string;
   destInfo = {
     lat: 0,
     long: 0
   }
+  destinationCity: string;
 
   date: string;
   dateDisplay: string;
@@ -100,11 +103,13 @@ export class SearchPage {
         let postData = {
           "rides": data,
           "origin": self.originInfo,
+          "originCity": self.originCity,
           "destination": self.destInfo,
+          "destinationCity": self.destinationCity,
           "date": self.date 
         }
         // Send the data to RidesPage
-        nav.setRoot(RidesPage, postData, {animate: true, direction: 'forward'});
+        nav.push(RidesPage, postData, {animate: true, direction: 'forward'});
         loader.dismiss();
       }, err => console.log("Error while searching for your ride : " + err));
     });
@@ -122,7 +127,7 @@ export class SearchPage {
 
     // set the options
     let options = {
-      types: []
+      types: ['(cities)']
     };
 
     // create the two autocompletes on the from and to fields
@@ -133,13 +138,14 @@ export class SearchPage {
     let self = this;
 
     // add the first listener
-    google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+    google.maps.event.addListener(autocomplete2, 'place_changed', function () {
 
-      let place = autocomplete1.getPlace();
+      let place = autocomplete2.getPlace();
       let geometry = place.geometry;
       if ((geometry) !== undefined) {
 
         console.log(place.name);
+        self.destinationCity = place.name;
 
         console.log(geometry.location.lng());
         self.destInfo.long = geometry.location.lng();
@@ -152,13 +158,14 @@ export class SearchPage {
     });
 
     // add the second listener
-    google.maps.event.addListener(autocomplete2, 'place_changed', function () {
-      let place = autocomplete2.getPlace();
+    google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+      let place = autocomplete1.getPlace();
       let geometry = place.geometry;
 
       if ((geometry) !== undefined) {
 
         console.log(place.name);
+        self.originCity = place.name;
 
         console.log(geometry.location.lng());
         self.originInfo.long = geometry.location.lng();

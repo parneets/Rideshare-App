@@ -1,12 +1,14 @@
-<ion-header>
+<ion-content>
+  <button ion-button icon-only navPop clear class="back-button-fixed">
+    <ion-icon name="arrow-round-back"></ion-icon>
+  </button>
 
-  <ion-navbar>
-    <ion-title>Ride</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
+  <ion-item class="user-details" padding>
+    <ion-avatar item-left>
+        <img src="{{userData.profile_picture}}">
+    </ion-avatar>
+    <h2>{{userData.full_name}}</h2>
+    <h4><ion-icon name="mail"></ion-icon>&nbsp;&nbsp;{{userData.email}}</h4>
+  </ion-item>
 
 </ion-content>

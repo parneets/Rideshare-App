@@ -27,7 +27,8 @@
 
   </ion-list>
 
-  <button full ion-button icon-left [disabled]="!(origin && destination && date)" (click)="searchRequested()">
+  <!-- [disabled]="!(origin && destination && date)" -->
+  <button full ion-button icon-left (click)="searchRequested()">
     <ion-icon name="search"></ion-icon>
     Search for a ride
   </button>

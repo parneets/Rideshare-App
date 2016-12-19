@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { User} from '@ionic/cloud-angular';
 import { httpService } from '../../services/http-service';
 import { AppSettings } from '../../app-config';
 import { DatePicker } from 'ionic-native';
@@ -32,17 +33,30 @@ export class PostPage {
   timeDisplay: string;
   time: string;
   vehicleInfo: string;
+  price: number;
+
+  // facebook data
+  userData = {
+    email: '',
+    full_name : '',
+    profile_picture: ''
+  }
 
   constructor(public navCtrl: NavController,
     private httpService: httpService,
     public loadingController: LoadingController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public user: User) {
 
     this.origin = "";
     this.destination = "";
     this.vehicleInfo = "";
     this.originInfo.lat = 0; this.originInfo.long = 0;
     this.destInfo.lat = 0; this.destInfo.long = 0;
+
+    this.userData.full_name = this.user.social.facebook.data.full_name;
+    this.userData.email = this.user.social.facebook.data.email;
+    this.userData.profile_picture = this.user.social.facebook.data.profile_picture;
   }
 
   ionViewDidLoad() {
@@ -61,7 +75,7 @@ export class PostPage {
 
     // set the options
     let options = {
-      types: []
+      types: ['(cities)']
     };
 
     // create the two autocompletes on the from and to fields
@@ -172,7 +186,9 @@ export class PostPage {
         "destination": this.destInfo,
         "date": this.date,
         "time": this.time,
-        "postedAt": postedAt
+        "price" : this.price,
+        "postedAt": postedAt,
+        "userData": this.userData
       }).subscribe(data => {
         console.log(data);
         loader.dismiss();
