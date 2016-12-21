@@ -8,8 +8,8 @@ import { LoginPage, HomePage } from '../pages/pages';
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  //rootPage = LoginPage;
-  rootPage = HomePage; // just for test/development
+  rootPage = LoginPage;
+  //rootPage = HomePage; // just for test/development
 
   constructor(platform: Platform) {
     platform.ready().then(() => {

@@ -5,10 +5,44 @@
 
   <ion-item class="user-details" padding>
     <ion-avatar item-left>
-        <img src="{{userData.profile_picture}}">
+      <img src="{{userData.profile_picture}}">
     </ion-avatar>
     <h2>{{userData.full_name}}</h2>
-    <h4><ion-icon name="mail"></ion-icon>&nbsp;&nbsp;{{userData.email}}</h4>
+    <h4>
+      <ion-icon name="mail"></ion-icon>&nbsp;&nbsp;{{userData.email}}</h4>
   </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <h2> Origin </h2>
+        <h2 item-right>{{ride.originName}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <h2> Destination </h2>
+        <h2 item-right>{{ride.destinationName}}</h2>
+      </ion-item>
+      
+      <ion-item>
+        <h2> Price </h2>
+        <h2 item-right>$ {{ride.price}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <h2> Time </h2>
+        <h2 item-right>{{convertToHumanTime(ride.time)}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <h2> Date </h2>
+        <h2 item-right>{{convertToHumanDate(ride.date)}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <h2> Posted </h2>
+        <h2 item-right>{{getTimeFrom(ride.postedAt)}}</h2>
+      </ion-item>
+
+    </ion-list>
 
 </ion-content>
