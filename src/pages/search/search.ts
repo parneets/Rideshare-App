@@ -100,8 +100,9 @@ export class SearchPage {
     loader.present().then(() => {
       // Get the rides through HTTP call
       this.httpService.makeGetRequest(AppSettings.BASE_URL + 'api/rides').subscribe(data => {
+        let filterRides = self.filterRides(data, self);
         let postData = {
-          "rides": data,
+          "rides": filterRides,
           "origin": self.originInfo,
           "originCity": self.originCity,
           "destination": self.destInfo,
@@ -176,6 +177,29 @@ export class SearchPage {
 
     });
 
+  }
+
+  // Filters the rides based on search
+  filterRides(rides, self){
+    let filteredRides = [];
+    for(let ride of rides){
+      if(this.isMatch(ride,self)){
+        filteredRides.push(ride);
+      }
+    }
+    return filteredRides;
+  }
+
+  // checks if a ride mathes with search or not
+  isMatch(ride, self){
+    if(ride.origin.lat == self.originInfo.lat && ride.origin.long == self.originInfo.long){
+      if(ride.destination.lat == self.destInfo.lat && ride.destination.long == self.destInfo.long){
+        if(ride.date == self.date){
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }
