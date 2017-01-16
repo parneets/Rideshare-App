@@ -1,16 +1,20 @@
-Rideshare 
+Rideshare Application
 ===================
-This is a car pooling mobile application created using [Ionic 2](http://ionicframework.com/docs/) for iOS and Android platforms.
+This is a car pooling or ridesharing mobile application created using [Ionic 2](http://ionicframework.com/docs/) for iOS and Android platforms.
 
-----------
+<br>
 
-### Screenshots
+## Demo
 
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/login.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/search1.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/post1.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/post2.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/post2.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/rides.png "Logo Title Text 1")
-![alt text](https://github.com/parneets/Rideshare-App/tree/master/screenshots/ride.png "Logo Title Text 1")
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QnSwMJLtW6Q" frameborder="0" allowfullscreen></iframe>
 
+<br><br>
+
+## Installation on Android device 
+
+In order to run this application on your android device, please proceed with the following steps
+
+- Clone the repository and run the following command
+    - `npm install -g ionic cordova`
+- Make sure your device is connected and USB debugging is enabled, then run the following command
+    - `ionic run android --device`
