@@ -6,7 +6,7 @@ This is a car pooling or ridesharing mobile application created using [Ionic 2](
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/embed/QnSwMJLtW6Q)
+[![IMAGE ALT TEXT HERE](./resources/video.png)](https://youtu.be/QnSwMJLtW6Q)
 
 <br><br>
 
