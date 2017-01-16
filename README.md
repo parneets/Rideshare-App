@@ -1,12 +1,12 @@
 Rideshare Application
 ===================
 This is a car pooling or ridesharing mobile application created using [Ionic 2](http://ionicframework.com/docs/) for iOS and Android platforms.
-
+Inspired by uberPOOL, this app allows users to post and search rides.
 <br>
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](./resources/video.png)](https://youtu.be/QnSwMJLtW6Q)
+[![IMAGE ALT TEXT HERE](./resources/video.png)](https://youtu.be/QnSwMJLtW6Q){:target="_blank"}
 
 <br><br>
 
